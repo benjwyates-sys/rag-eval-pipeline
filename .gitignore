@@ -1,0 +1,6 @@
+# Build artifacts and local state — never commit these
+chroma_db/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

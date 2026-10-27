@@ -1,0 +1,91 @@
+"""Ingest the corpus into Chroma.
+
+Reads every Markdown file in data/corpus/, splits each into overlapping
+chunks, embeds them with Chroma's built-in local model (no API key needed),
+and upserts them into a persistent collection.
+
+Chunk IDs are deterministic (doc_id#chunk_index), so re-running ingest
+upserts the same chunks instead of duplicating them.
+
+Run:  uv run python ingest.py [--reset]
+"""
+
+import argparse
+from pathlib import Path
+
+import chromadb
+
+CHUNK_SIZE = 1000
+OVERLAP = 200
+COLLECTION = "rag-eval-lab"
+
+
+def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
+    """Sliding-window character chunks. The overlap keeps sentences that
+    straddle a boundary searchable from both sides."""
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        chunk = text[start:end].strip()
+        if chunk:
+            chunks.append(chunk)
+        if end >= len(text):
+            break
+        start = end - overlap
+    return chunks
+
+
+def load_doc(path):
+    """Return (title, body) for a corpus file, dropping the source footer."""
+    text = path.read_text(encoding="utf-8")
+    body = text.split("\n---\n", 1)[0]
+    title = path.stem
+    lines = body.splitlines()
+    if lines and lines[0].startswith("# "):
+        title = lines[0][2:].strip()
+        body = "\n".join(lines[1:]).strip()
+    return title, body
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Ingest data/corpus into Chroma.")
+    parser.add_argument("--corpus", default="data/corpus")
+    parser.add_argument("--db", default="chroma_db")
+    parser.add_argument("--chunk-size", type=int, default=CHUNK_SIZE)
+    parser.add_argument("--overlap", type=int, default=OVERLAP)
+    parser.add_argument("--reset", action="store_true",
+                        help="Delete the existing collection before ingesting.")
+    args = parser.parse_args()
+
+    client = chromadb.PersistentClient(path=args.db)
+    if args.reset:
+        try:
+            client.delete_collection(COLLECTION)
+        except Exception:
+            pass
+    collection = client.get_or_create_collection(COLLECTION)
+
+    corpus_dir = Path(args.corpus)
+    files = sorted(corpus_dir.glob("*.md"))
+    if not files:
+        raise SystemExit(
+            f"No .md files found in {corpus_dir}. Run scripts/fetch_corpus.py first."
+        )
+
+    ids, documents, metadatas = [], [], []
+    for path in files:
+        title, body = load_doc(path)
+        doc_id = path.stem
+        for i, chunk in enumerate(chunk_text(body, args.chunk_size, args.overlap)):
+            ids.append(f"{doc_id}#{i}")
+            documents.append(chunk)
+            metadatas.append({"doc_id": doc_id, "title": title, "chunk_index": i})
+
+    collection.upsert(ids=ids, documents=documents, metadatas=metadatas)
+    print(f"Ingested {len(files)} docs -> {len(ids)} chunks into '{COLLECTION}'")
+    print(f"Collection now holds {collection.count()} chunks.")
+
+
+if __name__ == "__main__":
+    main()

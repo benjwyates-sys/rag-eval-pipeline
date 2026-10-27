@@ -1,0 +1,309 @@
+# Occupancy grid mapping
+
+Occupancy Grid Mapping refers to a family of computer algorithms in probabilistic robotics for mobile robots which address the problem of generating maps from noisy and uncertain sensor measurement data, with the assumption that the robot pose is known. Occupancy grids were first proposed by H. Moravec and A. Elfes in 1985.
+The basic idea of the occupancy grid is to represent a map of the environment as an evenly spaced field of binary random variables each representing the presence of an obstacle at that location in the environment. Occupancy grid algorithms compute approximate posterior estimates for these random variables.
+
+
+== Algorithm outline ==
+There are four major components of occupancy grid mapping approach. They are:
+
+Interpretation
+Integration
+Position estimation
+Exploration
+
+
+== Occupancy grid mapping algorithm ==
+The goal of an occupancy mapping algorithm is to estimate the posterior probability over maps given the data: 
+  
+    
+      
+        p
+        (
+        m
+        ∣
+        
+          z
+          
+            1
+            :
+            t
+          
+        
+        ,
+        
+          x
+          
+            1
+            :
+            t
+          
+        
+        )
+      
+    
+    {\displaystyle p(m\mid z_{1:t},x_{1:t})}
+  
+, where 
+  
+    
+      
+        m
+      
+    
+    {\displaystyle m}
+  
+ is the map, 
+  
+    
+      
+        
+          z
+          
+            1
+            :
+            t
+          
+        
+      
+    
+    {\displaystyle z_{1:t}}
+  
+ is the set of measurements from time 1 to t, and 
+  
+    
+      
+        
+          x
+          
+            1
+            :
+            t
+          
+        
+      
+    
+    {\displaystyle x_{1:t}}
+  
+ is the set of robot poses from time 1 to t. The controls and odometry data play no part in the occupancy grid mapping algorithm since the path is assumed known.
+Occupancy grid algorithms represent the map 
+  
+    
+      
+        m
+      
+    
+    {\displaystyle m}
+  
+ as a fine-grained grid over the continuous space of locations in the environment. The most common type of occupancy grid maps are 2d maps that describe a slice of the 3d world.
+If we let 
+  
+    
+      
+        
+          m
+          
+            i
+          
+        
+      
+    
+    {\displaystyle m_{i}}
+  
+ denote the grid cell with index i (often in 2d maps, two indices are used to represent the two dimensions), then the notation 
+  
+    
+      
+        p
+        (
+        
+          m
+          
+            i
+          
+        
+        )
+      
+    
+    {\displaystyle p(m_{i})}
+  
+ represents the probability that cell i is occupied.
+The computational problem with estimating the posterior 
+  
+    
+      
+        p
+        (
+        m
+        ∣
+        
+          z
+          
+            1
+            :
+            t
+          
+        
+        ,
+        
+          x
+          
+            1
+            :
+            t
+          
+        
+        )
+      
+    
+    {\displaystyle p(m\mid z_{1:t},x_{1:t})}
+  
+ is the dimensionality of the problem: if the map contains 10,000 grid cells (a relatively small map), then the number of possible maps that can be represented by this gridding is 
+  
+    
+      
+        
+          2
+          
+            10
+            ,
+            000
+          
+        
+      
+    
+    {\displaystyle 2^{10,000}}
+  
+. Thus calculating a posterior probability for all such maps is infeasible.
+The standard approach, then, is to break the problem down into smaller problems of estimating 
+
+  
+    
+      
+        p
+        (
+        
+          m
+          
+            i
+          
+        
+        ∣
+        
+          z
+          
+            1
+            :
+            t
+          
+        
+        ,
+        
+          x
+          
+            1
+            :
+            t
+          
+        
+        )
+      
+    
+    {\displaystyle p(m_{i}\mid z_{1:t},x_{1:t})}
+  
+
+for all grid cells 
+  
+    
+      
+        
+          m
+          
+            i
+          
+        
+      
+    
+    {\displaystyle m_{i}}
+  
+. Each of these estimation problems is then a binary problem. This breakdown is convenient but does lose some of the structure of the problem, since it does not enable modelling dependencies between neighboring cells. Instead, the posterior of a map is approximated by factoring it into
+
+  
+    
+      
+        p
+        (
+        m
+        ∣
+        
+          z
+          
+            1
+            :
+            t
+          
+        
+        ,
+        
+          x
+          
+            1
+            :
+            t
+          
+        
+        )
+        =
+        
+          ∏
+          
+            i
+          
+        
+        p
+        (
+        
+          m
+          
+            i
+          
+        
+        ∣
+        
+          z
+          
+            1
+            :
+            t
+          
+        
+        ,
+        
+          x
+          
+            1
+            :
+            t
+          
+        
+        )
+      
+    
+    {\displaystyle p(m\mid z_{1:t},x_{1:t})=\prod _{i}p(m_{i}\mid z_{1:t},x_{1:t})}
+  
+.
+Due to this factorization, a binary Bayes filter can be used to estimate the occupancy probability for each grid cell. It is common to use a log-odds representation of the probability that each grid cell is occupied.
+
+
+== See also ==
+Robotic mapping
+
+
+== References ==
+
+
+== External links ==
+Lecture notes of 16-831: Statistical Techniques in Robotics at RI CMU
+
+---
+Source: https://en.wikipedia.org/wiki/Occupancy_grid_mapping (CC BY-SA 4.0)

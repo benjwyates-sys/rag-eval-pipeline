@@ -1,0 +1,29 @@
+# Luminar Technologies
+
+Luminar Technologies Inc. was an American technology company that developed vision-based lidar and machine perception technologies, primarily for self-driving cars. The company's headquarters and main research and development facilities were in Orlando, Florida; a second major office was located in Palo Alto, California.
+
+
+== History ==
+
+
+=== 2012–2017: Deep stealth ===
+Austin Russell, a 2013 Thiel Fellow, founded Luminar in California in 2012, at the age of 17. Shortly afterward, Jason Eichenholz joined the company in Orlando as chief technology officer and co-founder. The company spent its first five years in stealth mode. 
+Russell's goal was to develop lidar technology with improved resolution and range by having Luminar fabricate many components in-house, rather than relying on off-the-shelf devices. To increase the time automotive lidar provides for a vehicle to react safely from one second to seven seconds at highway speeds, in 2013 Luminar decided to reevaluate the standard operating wavelength for lidar systems. Luminar's lidar operates in the infrared range at 1,550 nanometers (153 terahertz) rather than the usual 905 nanometers. This moved the lidar signal out of the range of visible light, making it safe for human eyes even at higher power levels. Luminar's infrared range can be used at power levels 40 times those permitted for the standard wavelength without endangering eyesight, increasing its resolution, especially at distances over 200 meters.
+
+
+=== 2017–2019: Funding and initial partnerships ===
+Luminar emerged from stealth mode in April 2017 and received $36 million in series A funding. The capital was earmarked to set up a factory in Orlando to manufacture 10,000 automotive lidar devices. In September 2017, Luminar announced a partnership with the Toyota Research Institute (TRI), the research and development arm of Toyota focused on autonomous vehicles, AI, and robotics. TRI used Luminar devices in its Platform 2.1 test vehicles, a fleet of self-driving Lexus sedans.
+By 2018, Luminar was on its seventh-generation application-specific integrated circuit (ASIC) design, and it had a fully integrated technology stack. The company added a Colorado Springs location in April 2018 when it acquired Black Forest Engineering, a company that specializes in high-performance indium gallium arsenide (InGaAs) receivers. Former Uber executive Brent Schwarz joined Luminar as head of business development in September 2018.
+In June 2018, Volvo and Luminar announced a partnership for Luminar to provide lidar technology for Volvo's self-driving cars planned for the 2022 model year. Luminar's lidar for Volvo is the approximate size of a VHS, optimized for highway driving, and integrated into a car's roof just above the windshield. It can receive wireless software upgrades and interface with Volvo's automatic safety features, like automatic emergency braking. Volvo also announced that Luminar was the recipient of Volvo's first investment of an undisclosed amount from its newly established venture capital program, the Volvo Cars Tech Fund.
+Audi AID (Autonomous Intelligent Driving) announced a partnership with Luminar in December 2018, selecting Luminar's lidar due to its longer 250-meter range and high resolution. In July 2019, Luminar raised $100 million in additional funding, bringing the total capital raised to more than $250 million. It also developed a new model of its lidar, approximately one-third the size of the previous model. By August 2019, Luminar had 250 employees at the Central Florida Research Park in Orlando and another 100 in California. The company's portfolio includes almost 50 patents, with approximately 150 additional applications pending.
+From 2017 to 2020, Luminar partnered with more than 50 companies, including 12 of the 15 largest car companies in the world.
+
+
+=== 2020–present: Public offering and growth ===
+In May 2020, Volvo announced a self-driving highway feature, "Highway Pilot", to be powered by Luminar's third-generation Iris lidar. Volvo said the technology would be available as an option to car buyers starting with the XC90. Also in May 2020, Tom Fennimore, previously an investment banker, joined Luminar as chief financial officer.
+On August 24, 2020, Luminar announced it was going public through a special-purpose acquisition company deal, with shares to be listed on NASDAQ. The merger with Gores Metropoulos, part of The Gores Group, was projected to raise Luminar's market cap to an estimated $3.4 billion. In addition to the $400 million cash infusion from Gores Metropoulos, additional capital totaling $170 million came from Peter Thiel, the Volvo Cars Tech Fund and Alec Gores, among others. On December 3, 2020, Luminar went public, trading as LAZR. Russell retained 83% of the company's voting power and took on the role of chairman.
+Daimler AG's truck unit took a minority stake in Luminar in October 2020, investing in the company as part of its efforts to develop self-driving trucks. The next month, Intel subsidiary Mobileye selected Luminar to supply lidar sensors for its autonomous vehicles. The company announced in March 2021 that it had partnered with Volvo's self-driving software subsidiary, Zenseact, to combine Luminar's hardware and Zenseact's OnePilot software into a self-driving system, called Sentinel, to be sold to automakers. Also in March 2021, SAIC Motor announced it would use Luminar sensors and Sentinel software to provide autonomous functions in its "R brand" line of vehicles. To support the work, Luminar announced it would open an office in Shanghai.
+In 2020 and 2021, Luminar moved its Orlando operations from the Central Florida Research Park to its other Orlando facility to increase its manufacturing capabilities.
+
+---
+Source: https://en.wikipedia.org/wiki/Luminar_Technologies (CC BY-SA 4.0)

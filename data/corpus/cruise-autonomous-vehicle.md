@@ -1,0 +1,30 @@
+# Cruise (autonomous vehicle)
+
+Cruise LLC was an American self-driving car company that became a subsidiary of General Motors, headquartered in San Francisco, California. Founded in 2013 by Kyle Vogt and Dan Kan, Cruise tested and developed autonomous car technology. The company was acquired by General Motors in 2016, and operated as a largely autonomous subsidiary, focusing on producing a fleet of driverless taxis. Following a series of incidents, it suspended operations in October 2023, and Kyle Vogt resigned as CEO in November 2023. The company began returning its vehicles to public roads in May 2024.
+In December 2024, GM stopped funding Cruise. Work on autonomous vehicles was to be incorporated into development of advanced driver assistance systems for personal vehicles, no longer funding autonomous taxis.
+
+
+== History ==
+Cruise initially focused on developing direct-to-consumer kits to retrofit vehicles with limited self-driving capabilities. The earlier generation of Cruise technology, RP-1, offered an autonomous on-demand feature available for the Audi A4 or S4 (2012 or later). The $10,000 kit will eventually retrofit all vehicles into a highway autopilot system. Ultimately, Cruise determined that the greater challenge lay in conquering city driving. In January 2014, the company decided to abandon the RP-1 and produce a fully autonomous vehicle using the Nissan Leaf. In 2015, Cruise changed its strategy and began writing software for fully self-driving vehicles. The brand philosophy urges car owners to engage in shared ownership instead of individual ownership to reduce environmental damage, the number of accidents, and congestion in big cities.
+Cruise received a permit to test self-driving vehicle technology from the California Department of Motor Vehicles in June 2015. After it successfully graduated from Y Combinator, a startup accelerator that mentors up-and-coming entrepreneurs, Cruise was acquired by General Motors in March 2016. The amount was undisclosed, and reports have estimated the number from "north of $500 million", to $580 million to over $1 billion. Cruise forms the core of GM's self-driving efforts.
+Upon acquisition, Cruise had around 40 employees. In a September 2016 interview with Darrell Etherington at the San Francisco TechCrunch Disrupt conference, Vogt confirmed that the company had over 100 employees. The number of people employed by Cruise has not generally been known, but multiple outlets reported that Cruise continued to grow rapidly. In June 2017, GM CEO Mary Barra said that Cruise had close to 200 employees.
+
+
+=== Acquisition by GM and investments ===
+Industry observers have noted, and GM CEO Mary Barra has stated, that GM allowed Cruise to remain responsible for both technology and commercialization, giving Cruise independence to avoid the pitfalls common when a large company acquires a technology startup.
+Since becoming part of General Motors in March 2016, Cruise has been working on developing software and hardware to make fully autonomous vehicles using modified Chevrolet Bolts.
+In April 2017, GM announced plans to invest $14 million to expand Cruise operations in California, adding an estimated 1,163 full-time employees by 2021.
+In May 2018, Cruise announced that SoftBank Vision Fund would invest $2.25 billion into the company, along with another $1.1 billion from GM itself. In October 2018, Cruise announced that Honda would be investing $750 million into the company, followed by another $2 billion over the next 12 years.
+In November 2018, the company got a new CEO, Dan Ammann, who had been a president of GM before accepting this position. Cruise raised an additional $1.15 billion in new equity in May 2019, bringing its total valuation to $19 billion.
+In January 2021 Microsoft, Honda and institutional investors invested a further $2 billion in combined new equity bringing the valuation to $30 billion. In March 2021, Cruise acquired Voyage, a self-driving startup that had been spun off from Udacity.
+In March 2022, GM acquired Softbank Vision Fund 1's equity ownership in Cruise for $2.1 billion, and made an additional $1.35 billion investment in Cruise.
+
+
+=== Robotaxi testing and permits ===
+In September 2021, Cruise received a permit from the California Department of Motor Vehicles to provide driverless taxi rides in the state. The permit allows the company to provide the service without the inclusion of safety drivers - staff that would accompany the vehicle and take control of it if necessary. In November 2021, Cruise co-founder Kyle Vogt took the first driverless taxi drive in the company's history.
+In February 2022, Cruise announced that it is now open to the public. Also in February 2022, Cruise petitioned U.S. regulators (NHTSA) for permission to build and deploy a self-driving vehicle without human controls. At the end of the month, Kyle Vogt was officially named CEO.
+In June 2022, Cruise received California's first Driverless Deployment Permit, allowing it to charge fees for its service. This was the first company to offer rides without a driver in a major public city. The company recalled and updated software in 80 self-driving vehicles in August, following a crash in June. As of September 2022, the company operated 100 robotaxis in San Francisco, and announced their intentions to increase the size of their fleet to 5,000. However, this drew some criticism due to the potential for this to increase traffic within the city.
+In September 2022, the company announced it would expand its service to Phoenix, Arizona, and Austin, Texas, within three months, with the goal of adding $1 billion in revenue by 2025. The Verge reported that the company lost $561 million in Q1 2023, with most of the $30 million in revenue coming from interest and other non-operating sources of income, but said it remains on the path to reach $1 billion in revenue by 2025 and $50 billion by 2030.
+
+---
+Source: https://en.wikipedia.org/wiki/Cruise_%28autonomous_vehicle%29 (CC BY-SA 4.0)

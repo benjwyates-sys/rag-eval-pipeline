@@ -1,0 +1,30 @@
+# Ethics of artificial intelligence
+
+The ethics of artificial intelligence covers a broad range of topics within AI that are considered to have particular ethical stakes. These include algorithmic biases, fairness, accountability, transparency, privacy, and regulation, particularly where AI systems influence or automate decisions affecting individuals or society. 
+The field also addresses broader societal and technological challenges, including machine ethics (how to make machines that behave ethically), lethal autonomous weapon systems, arms race dynamics, AI safety and alignment, technological unemployment, AI-enabled misinformation, how to treat certain AI systems if they have a moral status (AI welfare and rights), artificial superintelligence and existential risks.
+Some application areas may also have particularly important ethical implications, like healthcare, education, criminal justice, or the military.
+
+
+== Machine ethics ==
+
+Machine ethics (or machine morality) is the field of research concerned with designing Artificial Moral Agents (AMAs), robots or artificially intelligent computers that behave morally or as though moral. To account for the nature of these agents, it has been suggested to consider certain philosophical ideas, like the standard characterizations of agency, rational agency, moral agency, and artificial agency, which are related to the concept of AMAs.
+There are discussions on creating tests to see if an AI is capable of making ethical decisions. Alan Winfield concludes that the Turing test is flawed and the requirement for an AI to pass the test is too low. A proposed alternative test is one called the Ethical Turing Test, which would improve on the current test by having multiple judges decide if the AI's decision is ethical or unethical. Neuromorphic AI could be one way to create morally capable robots, as it aims to process information similarly to humans, nonlinearly and with millions of interconnected artificial neurons. Similarly, whole-brain emulation (scanning a brain and simulating it on digital hardware) could also in principle lead to human-like robots, thus capable of moral actions. And large language models are capable of approximating human moral judgments. Inevitably, this raises the question of the environment in which such robots would learn about the world and whose morality they would inherit – or if they end up developing human 'weaknesses' as well: selfishness, pro-survival attitudes, inconsistency, scale insensitivity, etc.
+In Moral Machines: Teaching Robots Right from Wrong, Wendell Wallach and Colin Allen conclude that attempts to teach robots right from wrong will likely advance understanding of human ethics by motivating humans to address gaps in modern normative theory and by providing a platform for experimental investigation. As one example, it has introduced normative ethicists to the controversial issue of which specific learning algorithms to use in machines. For simple decisions, Nick Bostrom and Eliezer Yudkowsky have argued that decision trees (such as ID3) are more transparent than neural networks and genetic algorithms, while Chris Santos-Lang argued in favor of machine learning on the grounds that the norms of any age must be allowed to change and that natural failure to fully satisfy these particular norms has been essential in making humans less vulnerable to criminal "hackers".
+Some researchers frame machine ethics as part of the broader AI control or value alignment problem: the difficulty of ensuring that increasingly capable systems pursue objectives that remain compatible with human values and oversight. Stuart Russell has argued that beneficial systems should be designed to (1) aim at realizing human preferences, (2) remain uncertain about what those preferences are, and (3) learn about them from human behaviour and feedback, rather than optimizing a fixed, fully specified goal. Some authors argue that apparent compliance with human values may reflect optimization for evaluation contexts rather than stable internal norms, complicating the assessment of alignment in advanced language models.
+
+
+== Challenges ==
+
+
+=== Algorithmic biases ===
+
+AI has become increasingly inherent in facial and voice recognition systems. These systems may be vulnerable to biases and errors introduced by their human creators. The data used to train them can have biases.
+According to Allison Powell, associate professor at LSE and director of the Data and Society programme, data collection is never neutral and always involves storytelling. She argues that the dominant narrative is that governing with technology is inherently better, faster and cheaper, but proposes instead to make data expensive, and to use it both minimally and valuably, with the cost of its creation factored in. Batya Friedman and Helen Nissenbaum identify three categories of bias in computer systems: existing bias, technical bias, and emergent bias. In natural language processing, problems can arise from the text corpus – the source material the algorithm uses to learn about the relationships between different words.
+Large companies such as IBM, Google, etc. that provide significant funding for research and development have tried to research and address these biases. One potential solution is to create documentation for the data used to train AI systems. Process mining can be an important tool for organizations to achieve compliance with proposed AI regulations by identifying errors, monitoring processes, identifying potential root causes for improper execution, and other functions. However, there are also limitations to current fairness in AI, due to the intrinsic ambiguities in the concept of discrimination, both at the philosophical and legal level.
+
+
+==== Racial and gender biases ====
+Bias can be introduced through historical data used to train AI systems. For instance, Amazon terminated their use of AI hiring and recruitment because the algorithm favored male candidates over female ones.
+
+---
+Source: https://en.wikipedia.org/wiki/Ethics_of_artificial_intelligence (CC BY-SA 4.0)
