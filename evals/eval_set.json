@@ -1,0 +1,100 @@
+[
+  {
+    "id": "eval-001",
+    "question": "What is lidar and how does it measure distance?",
+    "gold_answer": "Lidar (light detection and ranging) determines ranges by targeting an object with a laser and measuring the time for the reflected light to return.",
+    "gold_doc_ids": ["lidar"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-002",
+    "question": "In what year was the first DARPA Grand Challenge held, and did any vehicle finish the course?",
+    "gold_answer": "2004; no vehicle finished. Carnegie Mellon's Sandstorm went farthest at 11.78 km.",
+    "gold_doc_ids": ["darpa-grand-challenge"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-003",
+    "question": "Which vehicle won the 2005 DARPA Grand Challenge, and which team built it?",
+    "gold_answer": "Stanley, built by Stanford University's Stanford Racing Team, winning a $2 million prize.",
+    "gold_doc_ids": ["stanley-vehicle"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-004",
+    "question": "When did Google's self-driving project begin, and when was it renamed Waymo?",
+    "gold_answer": "Google's self-driving development began in January 2009; the project was renamed Waymo in December 2016.",
+    "gold_doc_ids": ["waymo"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-005",
+    "question": "When did Waymo become the first company to offer public service without safety drivers?",
+    "gold_answer": "In October 2020.",
+    "gold_doc_ids": ["waymo"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-006",
+    "question": "Who founded Zoox, when, and which company acquired it?",
+    "gold_answer": "Zoox was founded in 2014 by Tim Kentley-Klay and Jesse Levinson; Amazon acquired it in June 2020 for over $1.2 billion.",
+    "gold_doc_ids": ["zoox"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-007",
+    "question": "When did Zoox begin its Las Vegas robotaxi service, and was it free or paid at launch?",
+    "gold_answer": "September 10, 2025, initially free, serving fixed destinations along the Las Vegas Strip.",
+    "gold_doc_ids": ["zoox"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-008",
+    "question": "Who founded Cruise, when, and who acquired it?",
+    "gold_answer": "Cruise was founded in 2013 by Kyle Vogt and Dan Kan; General Motors acquired it in March 2016.",
+    "gold_doc_ids": ["cruise-autonomous-vehicle"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-009",
+    "question": "What is a Kalman filter, and what are its two phases?",
+    "gold_answer": "An algorithm that estimates unknown variables from a series of noisy measurements over time, via a prediction phase and an update phase.",
+    "gold_doc_ids": ["kalman-filter"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-010",
+    "question": "What is ISO 26262, and what does ASIL stand for?",
+    "gold_answer": "ISO 26262, 'Road vehicles - Functional safety,' is an international standard defined in 2011 and revised in 2018; ASIL stands for Automotive Safety Integrity Level.",
+    "gold_doc_ids": ["iso-26262"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-011",
+    "question": "The team that built the 2005 DARPA Grand Challenge winner later contributed to the origins of which self-driving company?",
+    "gold_answer": "Waymo: Google's self-driving project traces its origins to the Stanford Racing Team, which built Stanley, the 2005 winner.",
+    "gold_doc_ids": ["stanley-vehicle", "waymo"],
+    "type": "multi-hop"
+  },
+  {
+    "id": "eval-012",
+    "question": "Stanley's navigation used how many LIDAR units, and what does lidar measure?",
+    "gold_answer": "Five roof-mounted Sick AG LIDAR units; lidar measures ranges by targeting objects with a laser and timing the reflected light's return.",
+    "gold_doc_ids": ["stanley-vehicle", "lidar"],
+    "type": "multi-hop"
+  },
+  {
+    "id": "eval-013",
+    "question": "What is Zoox's current stock price?",
+    "gold_answer": "",
+    "gold_doc_ids": [],
+    "type": "unanswerable"
+  },
+  {
+    "id": "eval-014",
+    "question": "How many Zoox robotaxis will operate in Boston in 2027?",
+    "gold_answer": "",
+    "gold_doc_ids": [],
+    "type": "unanswerable"
+  }
+]
