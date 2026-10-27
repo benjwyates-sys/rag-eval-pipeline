@@ -31,6 +31,7 @@ def main():
     parser.add_argument("--mode", choices=["hybrid", "vector"], default="vector")
     parser.add_argument("--max-per-doc", type=int, default=1)
     parser.add_argument("--decompose", action="store_true", help="Use oracle sub-questions from evals/decompositions.json for multi-hop items.")
+    parser.add_argument("--auto-decompose", action="store_true", help="Generate sub-questions automatically with decompose.py (LLM when available, else rules).")
     args = parser.parse_args()
 
     eval_set = json.loads(EVAL_SET.read_text(encoding="utf-8"))
@@ -44,16 +45,34 @@ def main():
 
     per_question = []
     retrieved_docs_list, gold_sets = [], []
+    if args.auto_decompose:
+        from decompose import decompose, llm_available
+
+        print(f"Auto-decomposition on ({'LLM' if llm_available() else 'rule-based fallback'}).")
     for item in answerable:
-        if item["id"] in decomps:
-            # Oracle multi-step: retrieve per sub-question, merge docs
-            # in order of first appearance, take top-k.
+        if args.auto_decompose:
+            sub_qs = decompose(item["question"])
+        elif item["id"] in decomps:
+            sub_qs = decomps[item["id"]]
+        else:
+            sub_qs = None
+        if sub_qs is not None:
+            # Multi-step: retrieve per sub-question, merge round-robin
+            # so one bad sub-question can't fill every slot and starve
+            # the others (the eval-022 failure: sub-Q1's junk filled all
+            # 5 slots while sub-Q2 alone retrieved the gold doc at rank 1).
+            per_sq = []
+            for sq in sub_qs:
+                per_sq.append([r["doc_id"] for r in retrieve(sq, k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc)])
             docs = []
-            for sq in decomps[item["id"]]:
-                for r in retrieve(sq, k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc):
-                    if r["doc_id"] not in docs:
-                        docs.append(r["doc_id"])
-            docs = docs[:args.k]
+            for i in range(args.k):
+                for lst in per_sq:
+                    if i < len(lst) and lst[i] not in docs:
+                        docs.append(lst[i])
+                    if len(docs) >= args.k:
+                        break
+                if len(docs) >= args.k:
+                    break
         else:
             results = retrieve(item["question"], k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc)
             docs = [r["doc_id"] for r in results]
@@ -68,7 +87,8 @@ def main():
             "retrieved_doc_ids": docs,
             "hit_at_k": bool(gold & set(docs)),
             "first_hit_rank": first_hit,
-            "decomposed": item["id"] in decomps,
+            "decomposed": sub_qs is not None,
+            "sub_questions": sub_qs,
         })
 
     print(f"\n{len(answerable)} answerable questions, k={args.k}")
