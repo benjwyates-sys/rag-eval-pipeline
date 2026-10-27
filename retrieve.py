@@ -1,14 +1,11 @@
-"""Hybrid retrieval over the ingested corpus.
+"""Retrieval over the ingested corpus.
 
-Two rankers, one fused result:
-1. Vector search (Chroma, semantic similarity)
-2. Keyword search (query-term overlap — catches exact names and terms
-   that embeddings sometimes blur)
-
-Fusion uses Reciprocal Rank Fusion (RRF): each ranker votes
-1 / (60 + rank) for its picks, and chunks are ordered by total votes.
-RRF needs no score normalization, which is why it works when the two
-rankers' raw scores live on totally different scales.
+Default: pure vector search (Chroma, semantic similarity) with max 1
+chunk per doc — the session 3 champion. Hybrid mode is also available:
+vector + keyword search fused with Reciprocal Rank Fusion (RRF), where
+each ranker votes 1 / (60 + rank) for its picks. RRF needs no score
+normalization, which is why it works when the two rankers' raw scores
+live on totally different scales.
 
 Run:  uv run python retrieve.py "what is lidar" --k 5
 """
@@ -54,32 +51,55 @@ def rrf_fuse(rankings, k=RRF_K):
     return sorted(fused.items(), key=lambda x: -x[1])
 
 
-def retrieve(query, k=5, db="chroma_db"):
+def retrieve(query, k=5, db="chroma_db", mode="vector", max_per_doc=1):
     """Return the top-k chunks for a query as dicts with id, score,
-    title, doc_id, chunk_index, and text."""
+    title, doc_id, chunk_index, and text.
+
+    mode="vector" (default) is pure vector search — the session 3
+    champion. mode="hybrid" fuses vector + keyword rankings with RRF.
+    max_per_doc caps how many chunks a single doc may contribute to
+    the top-k (doc-diversity ablation; default 1).
+    """
     client = chromadb.PersistentClient(path=db)
     collection = client.get_or_create_collection(COLLECTION)
 
-    # Ranker 1: vector search.
+    # Ranker 1: vector search (over-retrieve so a diversity cap still
+    # leaves enough candidates to fill k).
     vec = collection.query(query_texts=[query], n_results=2 * k)
-    vector_ranking = vec["ids"][0] if vec["ids"] else []
+    vector_ids = vec["ids"][0] if vec["ids"] else []
+    vector_dists = vec["distances"][0] if vec.get("distances") and vec["distances"] else [None] * len(vector_ids)
 
-    # Ranker 2: keyword overlap over all chunks.
-    all_docs = collection.get()
-    docs = list(zip(all_docs["ids"], all_docs["documents"]))
-    keyword_ranking = keyword_rank(docs, query_terms(query))
+    if mode == "vector":
+        ranked = list(zip(vector_ids, vector_dists))
+    else:
+        # Ranker 2: keyword overlap over all chunks.
+        all_docs = collection.get()
+        docs = list(zip(all_docs["ids"], all_docs["documents"]))
+        keyword_ranking = keyword_rank(docs, query_terms(query))
+        ranked = rrf_fuse([vector_ids, keyword_ranking])
 
-    fused = rrf_fuse([vector_ranking, keyword_ranking])[:k]
+    # Diversity cap: walk the ranking in order, keeping at most
+    # max_per_doc chunks per doc. Chunk ids are "doc_id#chunk_index".
+    if max_per_doc is not None:
+        counts = {}
+        capped = []
+        for chunk_id, score in ranked:
+            doc = chunk_id.rsplit("#", 1)[0]
+            if counts.get(doc, 0) >= max_per_doc:
+                continue
+            counts[doc] = counts.get(doc, 0) + 1
+            capped.append((chunk_id, score))
+        ranked = capped
 
-    wanted = [doc_id for doc_id, _ in fused]
+    wanted = [chunk_id for chunk_id, _ in ranked[:k]]
     got = collection.get(ids=wanted) if wanted else {"ids": [], "documents": [], "metadatas": []}
     by_id = {i: (d, m) for i, d, m in zip(got["ids"], got["documents"], got["metadatas"])}
     results = []
-    for doc_id, score in fused:
-        if doc_id not in by_id:
+    for chunk_id, score in ranked[:k]:
+        if chunk_id not in by_id:
             continue
-        text, meta = by_id[doc_id]
-        results.append({"id": doc_id, "score": round(score, 4), **meta, "text": text})
+        text, meta = by_id[chunk_id]
+        results.append({"id": chunk_id, "score": round(score, 4) if score is not None else None, **meta, "text": text})
     return results
 
 
@@ -88,9 +108,11 @@ def main():
     parser.add_argument("query")
     parser.add_argument("--k", type=int, default=5)
     parser.add_argument("--db", default="chroma_db")
+    parser.add_argument("--mode", choices=["hybrid", "vector"], default="vector")
+    parser.add_argument("--max-per-doc", type=int, default=1)
     args = parser.parse_args()
 
-    results = retrieve(args.query, k=args.k, db=args.db)
+    results = retrieve(args.query, k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc)
     if not results:
         print("No matches.")
         return

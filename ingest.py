@@ -36,6 +36,37 @@ def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
     return chunks
 
 
+def chunk_text_words(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
+    """Word-boundary chunks: same sliding window, but a chunk never ends
+    mid-word. Words are accumulated up to chunk_size chars, then the
+    window steps forward by (chunk_size - overlap) chars worth of words.
+    Whitespace is normalized (words joined by single spaces)."""
+    words = text.split()
+    chunks = []
+    start = 0
+    while start < len(words):
+        end = start
+        length = 0
+        while end < len(words):
+            add = len(words[end]) + (1 if end > start else 0)
+            if length + add > chunk_size and end > start:
+                break
+            length += add
+            end += 1
+        chunks.append(" ".join(words[start:end]))
+        if end >= len(words):
+            break
+        # Advance by (chunk_size - overlap) chars worth of words.
+        step = chunk_size - overlap
+        advanced = 0
+        nxt = start
+        while nxt < end and advanced < step:
+            advanced += len(words[nxt]) + 1
+            nxt += 1
+        start = max(nxt, start + 1)
+    return chunks
+
+
 def load_doc(path):
     """Return (title, body) for a corpus file, dropping the source footer."""
     text = path.read_text(encoding="utf-8")
@@ -56,6 +87,8 @@ def main():
     parser.add_argument("--overlap", type=int, default=OVERLAP)
     parser.add_argument("--reset", action="store_true",
                         help="Delete the existing collection before ingesting.")
+    parser.add_argument("--word-boundary", action="store_true",
+                        help="Split chunks at word boundaries instead of mid-word.")
     args = parser.parse_args()
 
     client = chromadb.PersistentClient(path=args.db)
@@ -77,7 +110,8 @@ def main():
     for path in files:
         title, body = load_doc(path)
         doc_id = path.stem
-        for i, chunk in enumerate(chunk_text(body, args.chunk_size, args.overlap)):
+        chunker = chunk_text_words if args.word_boundary else chunk_text
+        for i, chunk in enumerate(chunker(body, args.chunk_size, args.overlap)):
             ids.append(f"{doc_id}#{i}")
             documents.append(chunk)
             metadatas.append({"doc_id": doc_id, "title": title, "chunk_index": i})

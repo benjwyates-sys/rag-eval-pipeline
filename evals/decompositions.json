@@ -1,0 +1,19 @@
+{
+  "_note": "ORACLE decompositions: hand-written sub-questions for the multi-hop items. This measures the CEILING of multi-step retrieval (what happens if decomposition is perfect), not a deployable system — a real decomposer must generate these itself, which is the next project. For eval-028 the sub-questions name the answer entities (Zoox, Cruise); that is deliberate: it isolates whether the bottleneck is entity identification or retrieval.",
+  "eval-011": [
+    "Which vehicle won the 2005 DARPA Grand Challenge and which team built it?",
+    "Which self-driving company originated from Sebastian Thrun's Stanford team?"
+  ],
+  "eval-012": [
+    "How many LIDAR units did Stanley's navigation use?",
+    "What does lidar measure and how does it measure distance?"
+  ],
+  "eval-028": [
+    "Which company acquired Zoox?",
+    "Which company acquired Cruise?"
+  ],
+  "eval-029": [
+    "What was the Kalman filter's first implementation used for?",
+    "Which Apollo mission used a laser altimeter to map the Moon?"
+  ]
+}

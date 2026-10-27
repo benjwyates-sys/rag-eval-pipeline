@@ -28,17 +28,35 @@ def main():
     parser.add_argument("--db", default="chroma_db")
     parser.add_argument("--output", default=None, help="Write per-question results as JSON.")
     parser.add_argument("--judge", action="store_true", help="Score evidence support with an LLM.")
+    parser.add_argument("--mode", choices=["hybrid", "vector"], default="vector")
+    parser.add_argument("--max-per-doc", type=int, default=1)
+    parser.add_argument("--decompose", action="store_true", help="Use oracle sub-questions from evals/decompositions.json for multi-hop items.")
     args = parser.parse_args()
 
     eval_set = json.loads(EVAL_SET.read_text(encoding="utf-8"))
+    decomp_path = Path(__file__).resolve().parent / "evals" / "decompositions.json"
+    decomps = {}
+    if args.decompose and decomp_path.exists():
+        decomps = {k: v for k, v in json.loads(decomp_path.read_text(encoding="utf-8")).items() if not k.startswith("_")}
+        print(f"Decomposition on: {len(decomps)} questions use oracle sub-questions.")
     answerable = [q for q in eval_set if q["type"] != "unanswerable"]
     unanswerable = [q for q in eval_set if q["type"] == "unanswerable"]
 
     per_question = []
     retrieved_docs_list, gold_sets = [], []
     for item in answerable:
-        results = retrieve(item["question"], k=args.k, db=args.db)
-        docs = [r["doc_id"] for r in results]
+        if item["id"] in decomps:
+            # Oracle multi-step: retrieve per sub-question, merge docs
+            # in order of first appearance, take top-k.
+            docs = []
+            for sq in decomps[item["id"]]:
+                for r in retrieve(sq, k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc):
+                    if r["doc_id"] not in docs:
+                        docs.append(r["doc_id"])
+            docs = docs[:args.k]
+        else:
+            results = retrieve(item["question"], k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc)
+            docs = [r["doc_id"] for r in results]
         gold = set(item["gold_doc_ids"])
         retrieved_docs_list.append(docs)
         gold_sets.append(gold)
@@ -50,6 +68,7 @@ def main():
             "retrieved_doc_ids": docs,
             "hit_at_k": bool(gold & set(docs)),
             "first_hit_rank": first_hit,
+            "decomposed": item["id"] in decomps,
         })
 
     print(f"\n{len(answerable)} answerable questions, k={args.k}")
@@ -76,7 +95,7 @@ def main():
 
             verdicts = {}
             for item, q in zip(answerable, per_question):
-                texts = [r["text"] for r in retrieve(item["question"], k=args.k, db=args.db)]
+                texts = [r["text"] for r in retrieve(item["question"], k=args.k, db=args.db, mode=args.mode, max_per_doc=args.max_per_doc)]
                 verdict, _ = judge_evidence(item["question"], item["gold_answer"], texts)
                 verdicts[verdict] = verdicts.get(verdict, 0) + 1
                 q["evidence_support"] = verdict

@@ -1,0 +1,438 @@
+[
+  {
+    "id": "eval-001",
+    "question": "What is lidar and how does it measure distance?",
+    "gold_doc_ids": [
+      "lidar"
+    ],
+    "retrieved_doc_ids": [
+      "lidar",
+      "adaptive-cruise-control",
+      "velodyne-lidar",
+      "stanley-vehicle",
+      "advanced-driver-assistance-system"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-002",
+    "question": "In what year was the first DARPA Grand Challenge held, and did any vehicle finish the course?",
+    "gold_doc_ids": [
+      "darpa-grand-challenge"
+    ],
+    "retrieved_doc_ids": [
+      "darpa-grand-challenge",
+      "history-of-self-driving-cars",
+      "stanley-vehicle",
+      "torc-robotics",
+      "aurora-innovation"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-003",
+    "question": "Which vehicle won the 2005 DARPA Grand Challenge, and which team built it?",
+    "gold_doc_ids": [
+      "stanley-vehicle"
+    ],
+    "retrieved_doc_ids": [
+      "darpa-grand-challenge",
+      "stanley-vehicle",
+      "torc-robotics",
+      "history-of-self-driving-cars",
+      "velodyne-lidar"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 2
+  },
+  {
+    "id": "eval-004",
+    "question": "When did Google's self-driving project begin, and when was it renamed Waymo?",
+    "gold_doc_ids": [
+      "waymo"
+    ],
+    "retrieved_doc_ids": [
+      "waymo",
+      "aurora-innovation",
+      "history-of-self-driving-cars",
+      "self-driving-car",
+      "nuro"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-005",
+    "question": "When did Waymo become the first company to offer public service without safety drivers?",
+    "gold_doc_ids": [
+      "waymo"
+    ],
+    "retrieved_doc_ids": [
+      "waymo",
+      "cruise-autonomous-vehicle",
+      "ponyai",
+      "createai",
+      "history-of-self-driving-cars"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-006",
+    "question": "Who founded Zoox, when, and which company acquired it?",
+    "gold_doc_ids": [
+      "zoox"
+    ],
+    "retrieved_doc_ids": [
+      "zoox",
+      "cruise-autonomous-vehicle",
+      "ponyai",
+      "createai",
+      "mobileye"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-007",
+    "question": "When did Zoox begin its Las Vegas robotaxi service, and was it free or paid at launch?",
+    "gold_doc_ids": [
+      "zoox"
+    ],
+    "retrieved_doc_ids": [
+      "zoox",
+      "mobileye",
+      "waymo",
+      "cruise-autonomous-vehicle",
+      "motional"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-008",
+    "question": "Who founded Cruise, when, and who acquired it?",
+    "gold_doc_ids": [
+      "cruise-autonomous-vehicle"
+    ],
+    "retrieved_doc_ids": [
+      "cruise-autonomous-vehicle",
+      "luminar-technologies",
+      "advanced-driver-assistance-system",
+      "createai",
+      "zoox"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-009",
+    "question": "What is a Kalman filter, and what are its two phases?",
+    "gold_doc_ids": [
+      "kalman-filter"
+    ],
+    "retrieved_doc_ids": [
+      "kalman-filter",
+      "sensor-fusion",
+      "model-predictive-control",
+      "particle-filter",
+      "simultaneous-localization-and-mapping"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-010",
+    "question": "What is ISO 26262, and what does ASIL stand for?",
+    "gold_doc_ids": [
+      "iso-26262"
+    ],
+    "retrieved_doc_ids": [
+      "automotive-safety-integrity-level",
+      "iso-26262",
+      "functional-safety",
+      "dedicated-short-range-communications",
+      "lidar"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 2
+  },
+  {
+    "id": "eval-011",
+    "question": "The team that built the 2005 DARPA Grand Challenge winner later contributed to the origins of which self-driving company?",
+    "gold_doc_ids": [
+      "stanley-vehicle",
+      "waymo"
+    ],
+    "retrieved_doc_ids": [
+      "darpa-grand-challenge",
+      "argo-ai",
+      "history-of-self-driving-cars",
+      "stanley-vehicle",
+      "waymo"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 4
+  },
+  {
+    "id": "eval-012",
+    "question": "Stanley's navigation used how many LIDAR units, and what does lidar measure?",
+    "gold_doc_ids": [
+      "lidar",
+      "stanley-vehicle"
+    ],
+    "retrieved_doc_ids": [
+      "lidar",
+      "stanley-vehicle",
+      "adaptive-cruise-control",
+      "advanced-driver-assistance-system",
+      "image-segmentation"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-015",
+    "question": "What is sensor fusion, and what does it reduce compared to using sources individually?",
+    "gold_doc_ids": [
+      "sensor-fusion"
+    ],
+    "retrieved_doc_ids": [
+      "sensor-fusion",
+      "adaptive-cruise-control",
+      "kalman-filter",
+      "stanley-vehicle",
+      "velodyne-lidar"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-016",
+    "question": "Name two algorithms used in sensor fusion.",
+    "gold_doc_ids": [
+      "sensor-fusion"
+    ],
+    "retrieved_doc_ids": [
+      "sensor-fusion",
+      "kalman-filter",
+      "adaptive-cruise-control",
+      "simultaneous-localization-and-mapping",
+      "stanley-vehicle"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-017",
+    "question": "What is computer vision concerned with, and what are two of its subdisciplines?",
+    "gold_doc_ids": [
+      "computer-vision"
+    ],
+    "retrieved_doc_ids": [
+      "computer-vision",
+      "adaptive-cruise-control",
+      "depth-perception",
+      "object-detection",
+      "image-segmentation"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-018",
+    "question": "What is object detection, and what are two well-researched domains of it?",
+    "gold_doc_ids": [
+      "object-detection"
+    ],
+    "retrieved_doc_ids": [
+      "object-detection",
+      "computer-vision",
+      "image-segmentation",
+      "adaptive-cruise-control",
+      "lidar"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-019",
+    "question": "How is a true positive measured for object localization, and what threshold example is given?",
+    "gold_doc_ids": [
+      "object-detection"
+    ],
+    "retrieved_doc_ids": [
+      "object-detection",
+      "receiver-operating-characteristic",
+      "ground-truth",
+      "confusion-matrix",
+      "data-set"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-020",
+    "question": "What is the motion planning problem?",
+    "gold_doc_ids": [
+      "motion-planning"
+    ],
+    "retrieved_doc_ids": [
+      "motion-planning",
+      "motional",
+      "simultaneous-localization-and-mapping",
+      "control-theory",
+      "reinforcement-learning"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-021",
+    "question": "What is configuration space, and what is free space in motion planning?",
+    "gold_doc_ids": [
+      "motion-planning"
+    ],
+    "retrieved_doc_ids": [
+      "motion-planning",
+      "occupancy-grid-mapping",
+      "computer-vision",
+      "blind-spot-monitor",
+      "control-theory"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-022",
+    "question": "What do the P, I, and D terms of a PID controller each respond to?",
+    "gold_doc_ids": [
+      "pid-controller"
+    ],
+    "retrieved_doc_ids": [
+      "pid-controller",
+      "model-predictive-control",
+      "control-theory",
+      "occupancy-grid-mapping",
+      "argo-ai"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-023",
+    "question": "What is the common vehicle example of PID control given?",
+    "gold_doc_ids": [
+      "pid-controller"
+    ],
+    "retrieved_doc_ids": [
+      "pid-controller",
+      "model-predictive-control",
+      "control-theory",
+      "adaptive-cruise-control",
+      "geofence"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-024",
+    "question": "What is the objective of functional safety?",
+    "gold_doc_ids": [
+      "functional-safety"
+    ],
+    "retrieved_doc_ids": [
+      "functional-safety",
+      "safety-case",
+      "iso-26262",
+      "automotive-safety-integrity-level",
+      "redundancy-engineering"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-025",
+    "question": "As of late 2025, has any system achieved full autonomy in all domains?",
+    "gold_doc_ids": [
+      "self-driving-car"
+    ],
+    "retrieved_doc_ids": [
+      "self-driving-car",
+      "tesla-autopilot",
+      "darpa-grand-challenge",
+      "nuro",
+      "adaptive-cruise-control"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-026",
+    "question": "What are the two main technologies primarily used by self-driving cars?",
+    "gold_doc_ids": [
+      "self-driving-car"
+    ],
+    "retrieved_doc_ids": [
+      "self-driving-car",
+      "history-of-self-driving-cars",
+      "regulation-of-self-driving-cars",
+      "tesla-autopilot",
+      "advanced-driver-assistance-system"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-027",
+    "question": "What is adaptive cruise control, and what SAE level are most ACC systems?",
+    "gold_doc_ids": [
+      "adaptive-cruise-control"
+    ],
+    "retrieved_doc_ids": [
+      "adaptive-cruise-control",
+      "automated-emergency-braking-system",
+      "advanced-driver-assistance-system",
+      "self-driving-car",
+      "tesla-autopilot"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  },
+  {
+    "id": "eval-028",
+    "question": "Which two AV companies were acquired by larger companies, and who acquired each?",
+    "gold_doc_ids": [
+      "cruise-autonomous-vehicle",
+      "zoox"
+    ],
+    "retrieved_doc_ids": [
+      "velodyne-lidar",
+      "argo-ai",
+      "aurora-innovation",
+      "mobileye",
+      "vehicle-to-everything"
+    ],
+    "hit_at_k": false,
+    "first_hit_rank": null
+  },
+  {
+    "id": "eval-029",
+    "question": "The Kalman filter's first implementation supported Apollo navigation; which Apollo mission used a laser altimeter to map the Moon?",
+    "gold_doc_ids": [
+      "kalman-filter",
+      "lidar"
+    ],
+    "retrieved_doc_ids": [
+      "kalman-filter",
+      "lidar",
+      "simultaneous-localization-and-mapping",
+      "adaptive-cruise-control",
+      "apolong"
+    ],
+    "hit_at_k": true,
+    "first_hit_rank": 1
+  }
+]

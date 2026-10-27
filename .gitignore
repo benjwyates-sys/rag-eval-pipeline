@@ -1,5 +1,6 @@
 # Build artifacts and local state — never commit these
 chroma_db/
+chroma_db_*/
 .venv/
 __pycache__/
 *.pyc
