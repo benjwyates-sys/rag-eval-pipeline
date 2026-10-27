@@ -96,5 +96,117 @@
     "gold_answer": "",
     "gold_doc_ids": [],
     "type": "unanswerable"
+  },
+  {
+    "id": "eval-015",
+    "question": "What is sensor fusion, and what does it reduce compared to using sources individually?",
+    "gold_answer": "Combining sensor data from disparate sources so the resulting information has less uncertainty than any single source could provide.",
+    "gold_doc_ids": ["sensor-fusion"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-016",
+    "question": "Name two algorithms used in sensor fusion.",
+    "gold_answer": "Kalman filter and Bayesian networks (also Dempster-Shafer, convolutional neural networks, Gaussian processes).",
+    "gold_doc_ids": ["sensor-fusion"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-017",
+    "question": "What is computer vision concerned with, and what are two of its subdisciplines?",
+    "gold_answer": "The automatic extraction, analysis, and understanding of useful information from images; subdisciplines include object detection, scene reconstruction, and video tracking.",
+    "gold_doc_ids": ["computer-vision"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-018",
+    "question": "What is object detection, and what are two well-researched domains of it?",
+    "gold_answer": "Detecting instances of semantic objects of a certain class (such as humans, buildings, or cars) in digital images and videos; well-researched domains include face detection and pedestrian detection.",
+    "gold_doc_ids": ["object-detection"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-019",
+    "question": "How is a true positive measured for object localization, and what threshold example is given?",
+    "gold_answer": "By thresholded intersection over union (IoU); e.g., at a 0.5 threshold, a predicted bounding box is a true positive if its IoU with the ground-truth box exceeds 0.5.",
+    "gold_doc_ids": ["object-detection"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-020",
+    "question": "What is the motion planning problem?",
+    "gold_answer": "Finding a sequence of valid configurations that moves an object from a source to a destination (also called path planning or the piano mover's problem).",
+    "gold_doc_ids": ["motion-planning"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-021",
+    "question": "What is configuration space, and what is free space in motion planning?",
+    "gold_answer": "Configuration space (C) is the set of all possible configurations (poses) of the robot; free space (Cfree) is the subset of configurations that avoid collision with obstacles.",
+    "gold_doc_ids": ["motion-planning"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-022",
+    "question": "What do the P, I, and D terms of a PID controller each respond to?",
+    "gold_answer": "P responds to the current error, I to the cumulative sum of past errors, and D to the rate of change of the error, predicting its future trend.",
+    "gold_doc_ids": ["pid-controller"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-023",
+    "question": "What is the common vehicle example of PID control given?",
+    "gold_answer": "Cruise control: when a vehicle slows on a hill, the PID controller adjusts engine power to restore the desired speed with minimal delay and overshoot.",
+    "gold_doc_ids": ["pid-controller"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-024",
+    "question": "What is the objective of functional safety?",
+    "gold_answer": "Freedom from unacceptable risk of physical injury or damage to health, directly or indirectly, through proper implementation of automatic protection functions.",
+    "gold_doc_ids": ["functional-safety"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-025",
+    "question": "As of late 2025, has any system achieved full autonomy in all domains?",
+    "gold_answer": "No; as of late 2025, no system has achieved full autonomy in all domains (Level 5).",
+    "gold_doc_ids": ["self-driving-car"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-026",
+    "question": "What are the two main technologies primarily used by self-driving cars?",
+    "gold_answer": "LiDAR and visual sensors (cameras), combined with GPS, neural networks, artificial intelligence, and ADAS engineering.",
+    "gold_doc_ids": ["self-driving-car"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-027",
+    "question": "What is adaptive cruise control, and what SAE level are most ACC systems?",
+    "gold_answer": "A driver-assistance system that automatically adjusts vehicle speed to maintain a safe distance from vehicles ahead; most ACC systems are SAE Level 1 automation.",
+    "gold_doc_ids": ["adaptive-cruise-control"],
+    "type": "factual"
+  },
+  {
+    "id": "eval-028",
+    "question": "Which two AV companies were acquired by larger companies, and who acquired each?",
+    "gold_answer": "Zoox was acquired by Amazon (2020); Cruise was acquired by General Motors (2016).",
+    "gold_doc_ids": ["zoox", "cruise-autonomous-vehicle"],
+    "type": "multi-hop"
+  },
+  {
+    "id": "eval-029",
+    "question": "The Kalman filter's first implementation supported Apollo navigation; which Apollo mission used a laser altimeter to map the Moon?",
+    "gold_answer": "Apollo 15 in 1971, which used a laser altimeter to map the Moon's surface.",
+    "gold_doc_ids": ["kalman-filter", "lidar"],
+    "type": "multi-hop"
+  },
+  {
+    "id": "eval-030",
+    "question": "What will Waymo's revenue be in 2027?",
+    "gold_answer": "",
+    "gold_doc_ids": [],
+    "type": "unanswerable"
   }
 ]
