@@ -1,4 +1,4 @@
-# Scorecard — sessions 3–4
+# Scorecard — sessions 3–5
 
 27 answerable questions, k=5, 1024-char chunks / 200 overlap unless noted.
 Per-question results live in `evals/results_*.json`.
@@ -20,6 +20,8 @@ Per-question results live in `evals/results_*.json`.
 | Vector, div1, oracle decomposition + round-robin | 0.926 | 1.000 | 1.000 | 0.957 | none |
 | Vector, div1, rule-based auto-decomposition + round-robin | 0.852 | 0.963 | 0.963 | 0.901 | 028 |
 | Vector, div1, LLM auto-decomposition + round-robin (guess-first) | 0.889 | 1.000 | 1.000 | 0.938 | none |
+| Vector, div1, two-stage grounded decomposition + round-robin | 0.815 | 0.926 | 0.963 | 0.880 | 025 |
+| Vector, div1, two-stage grounded decomposition + keyword filter + round-robin | 0.815 | 0.926 | 1.000 | 0.887 | none |
 
 ## Findings
 
@@ -106,6 +108,32 @@ grounds the domain, the LLM reads candidate docs, then proposes entities
 for targeted verification — directly addresses the wrong-domain failure
 above. Ranking (003/011/028 below rank 1) is the remaining gap.
 
+## Session 5: two-stage grounded decomposition
+
+`two_stage.py` retrieves first, then guesses: stage 1 broad vector retrieval (k=10, max 1 chunk per doc), stage 2 LLM proposes entities from those candidates only (title + first 500 chars each), one verification sub-question per entity, merged round-robin. An optional `--keyword-filter` drops proposed entities appearing in none of the stage-1 candidates. `run.py --two-stage` runs it; per-question output records `stage1_doc_ids`, `dropped_entities`, and `two_stage_fallback`.
+
+### Results (negative result)
+
+Two-stage scores BELOW both the single-step champion and session-4 single-pass decomposition: plain 0.815/0.926/0.963, MRR 0.880, sole miss 025; with keyword filter 0.815/0.926/1.000, MRR 0.887, zero misses. Only three questions moved against session 4 (0.938); the other 24 are identical. Grounding as implemented does not work.
+
+### Why it lost
+
+- eval-025 (rank 1 → miss) is the mechanism. Session 4's abstract split retrieved the self-driving-car doc at rank 1. Two-stage entity-instantiated a general question ('has ANY system...') into Nuro, Pony.ai, Waymo, and Tesla checks, each retrieving its company doc and crowding the general doc out entirely. Entity-grounding is actively harmful for questions whose answer is a general claim: the answer ('no') lives in the general doc, not the company docs. eval-001 shows the same mechanism benignly: six sub-questions enumerating candidate entities, harmless at rank 1.
+- eval-028 (rank 3 → 4) and eval-011 (rank 2, unchanged) show grounding did not fix entity selection. For 028 the grounded model again guessed Argo AI and Mobileye (Cruise at rank 4 via clustering; Zoox absent from stage-1 candidates, a recall cap). For 011, Waymo WAS in the stage-1 candidates and still was not proposed — the model rephrased instead. Grounding fixed the session-4 domain error (no more antivirus guesses) but not entity selection, twice over.
+
+### The keyword filter was a no-op
+
+`dropped_entities` is empty on all 27 questions in the filter run: the grounded prompt already constrains proposals to candidates, so there was nothing to catch. The filter run's 025 pass is NOT the filter — its stage-2 output nondeterministically included the original question as a fifth sub-question, whose retrieval supplied self-driving-car at rank 5. Plain-vs-filter is therefore confounded by temperature-0 nondeterminism, not a clean ablation; a real filter ablation would freeze stage-2 outputs and toggle only the filter.
+
+### Engineering notes
+
+- The first two-stage runs failed on JSON parsing (the object-format prompt returned markdown-fenced JSON); the fix is a tolerant parser (`_parse_json_list`: strip fences, extract the first [...] block) plus the raw output head in the error, and a per-question `two_stage_fallback` flag. The shipped runs have zero fallbacks.
+- Temperature 0 is not deterministic across calls (also seen in session 4): treat single-run LLM numbers as one sample.
+
+### Next
+
+Session 6 candidate: SELECTIVE grounding — route which/who questions (where entities are the answer) to grounded entity-proposal, and keep general and definitional questions on single-pass splits or single-step retrieval. 025 is the poster child for why the routing matters.
+
 ## Caveats
 
 - 27 questions, one corpus: the champion is champion on this set, not a
@@ -126,4 +154,6 @@ above. Ranking (003/011/028 below rank 1) is the remaining gap.
 uv run python run.py --mode vector --max-per-doc 1
 uv run python run.py --mode vector --max-per-doc 1 --decompose  # oracle ceiling
 uv run python run.py --mode vector --max-per-doc 1 --auto-decompose  # LLM decomposer, needs OPENAI_API_KEY
+uv run python run.py --mode vector --max-per-doc 1 --two-stage  # grounded decomposer, needs OPENAI_API_KEY
+uv run python run.py --mode vector --max-per-doc 1 --two-stage --keyword-filter
 ```

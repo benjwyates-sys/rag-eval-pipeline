@@ -16,6 +16,7 @@ fundamentals by hand — no frameworks hiding the machinery.
 - `metrics.py` — hit-rate@k, MRR (pure functions, no I/O)
 - `run.py` — runs the eval set and prints scores
 - `decompose.py` — automatic query decomposition (LLM guess-first prompt, rule-based fallback; `--auto-decompose`)
+- `two_stage.py` — two-stage grounded decomposition (retrieve first, LLM proposes entities from candidates; `--two-stage`, optional `--keyword-filter`)
 - `judge.py` — LLM evidence-support judge (needs OPENAI_API_KEY)
 
 ## Run it
@@ -41,11 +42,15 @@ Champion config from session 3 (27 answerable questions, k=5):
 pure-vector retrieval with max 1 chunk per doc — hit@1 0.889, hit@3 0.963,
 hit@5 0.963, MRR 0.926. Automatic LLM decomposition (session 4,
 guess-first prompt, round-robin merge) lifts that to hit@3/hit@5 1.000,
-MRR 0.938 with zero misses. Oracle query decomposition lifts that to hit@3/hit@5
+MRR 0.938 with zero misses. Two-stage grounded decomposition (session 5,
+retrieve first, then guess from candidates) scores lower: MRR 0.880,
+keyword-filter variant 0.887 — grounding hurts general questions (see
+scorecard). Oracle query decomposition lifts that to hit@3/hit@5
 1.000, MRR 0.963. Full ablation table and findings: `evals/SCORECARD.md`.
 
 ```
 uv run python run.py
 uv run python run.py --decompose
 uv run python run.py --auto-decompose  # needs OPENAI_API_KEY
+uv run python run.py --two-stage  # needs OPENAI_API_KEY
 ```

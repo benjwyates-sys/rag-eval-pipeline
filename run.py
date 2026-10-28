@@ -32,6 +32,8 @@ def main():
     parser.add_argument("--max-per-doc", type=int, default=1)
     parser.add_argument("--decompose", action="store_true", help="Use oracle sub-questions from evals/decompositions.json for multi-hop items.")
     parser.add_argument("--auto-decompose", action="store_true", help="Generate sub-questions automatically with decompose.py (LLM when available, else rules).")
+    parser.add_argument("--two-stage", action="store_true", help="Two-stage decomposition: broad retrieval first, then LLM proposes entities grounded in the retrieved candidates (two_stage.py).")
+    parser.add_argument("--keyword-filter", action="store_true", help="With --two-stage: drop proposed entities that appear in none of the stage-1 candidate docs.")
     args = parser.parse_args()
 
     eval_set = json.loads(EVAL_SET.read_text(encoding="utf-8"))
@@ -45,12 +47,31 @@ def main():
 
     per_question = []
     retrieved_docs_list, gold_sets = [], []
-    if args.auto_decompose:
+    two_stage_fn = None
+    if args.two_stage:
+        from decompose import llm_available
+
+        if llm_available():
+            from two_stage import two_stage_sub_questions
+
+            two_stage_fn = two_stage_sub_questions
+            print("Two-stage decomposition on (LLM).")
+        else:
+            print("Two-stage requested but no LLM available; falling back to single-step retrieval.")
+    if args.auto_decompose and not args.two_stage:
         from decompose import decompose, llm_available
 
         print(f"Auto-decomposition on ({'LLM' if llm_available() else 'rule-based fallback'}).")
     for item in answerable:
-        if args.auto_decompose:
+        stage1_docs, dropped, two_stage, fallback = [], [], False, False
+        if two_stage_fn is not None:
+            info = two_stage_fn(item["question"], db=args.db, mode=args.mode, max_per_doc=args.max_per_doc, keyword_filter=args.keyword_filter)
+            sub_qs = info["sub_questions"]
+            stage1_docs = info["stage1_doc_ids"]
+            dropped = info["dropped_entities"]
+            fallback = info["fallback"]
+            two_stage = True
+        elif args.auto_decompose and not args.two_stage:
             sub_qs = decompose(item["question"])
         elif item["id"] in decomps:
             sub_qs = decomps[item["id"]]
@@ -89,6 +110,10 @@ def main():
             "first_hit_rank": first_hit,
             "decomposed": sub_qs is not None,
             "sub_questions": sub_qs,
+            "two_stage": two_stage,
+            "two_stage_fallback": fallback,
+            "stage1_doc_ids": stage1_docs,
+            "dropped_entities": dropped,
         })
 
     print(f"\n{len(answerable)} answerable questions, k={args.k}")
