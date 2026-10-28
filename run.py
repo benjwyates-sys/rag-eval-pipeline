@@ -34,6 +34,7 @@ def main():
     parser.add_argument("--auto-decompose", action="store_true", help="Generate sub-questions automatically with decompose.py (LLM when available, else rules).")
     parser.add_argument("--two-stage", action="store_true", help="Two-stage decomposition: broad retrieval first, then LLM proposes entities grounded in the retrieved candidates (two_stage.py).")
     parser.add_argument("--keyword-filter", action="store_true", help="With --two-stage: drop proposed entities that appear in none of the stage-1 candidate docs.")
+    parser.add_argument("--selective", action="store_true", help="Route entity-seeking questions (which/who/what-company) to grounded decomposition, others to single-pass auto-decomposition (selective.py).")
     args = parser.parse_args()
 
     eval_set = json.loads(EVAL_SET.read_text(encoding="utf-8"))
@@ -47,8 +48,14 @@ def main():
 
     per_question = []
     retrieved_docs_list, gold_sets = [], []
+    selective_fn = None
+    if args.selective:
+        from selective import selective_sub_questions
+
+        selective_fn = selective_sub_questions
+        print("Selective routing on (grounded for entity-seeking questions, auto otherwise).")
     two_stage_fn = None
-    if args.two_stage:
+    if args.two_stage and not args.selective:
         from decompose import llm_available
 
         if llm_available():
@@ -58,23 +65,33 @@ def main():
             print("Two-stage decomposition on (LLM).")
         else:
             print("Two-stage requested but no LLM available; falling back to single-step retrieval.")
-    if args.auto_decompose and not args.two_stage:
+    if args.auto_decompose and not args.two_stage and not args.selective:
         from decompose import decompose, llm_available
 
         print(f"Auto-decomposition on ({'LLM' if llm_available() else 'rule-based fallback'}).")
     for item in answerable:
-        stage1_docs, dropped, two_stage, fallback = [], [], False, False
-        if two_stage_fn is not None:
+        stage1_docs, dropped, two_stage, fallback, routed = [], [], False, False, "none"
+        if selective_fn is not None:
+            info = selective_fn(item["question"], db=args.db, mode=args.mode, max_per_doc=args.max_per_doc, keyword_filter=args.keyword_filter)
+            sub_qs = info["sub_questions"]
+            stage1_docs = info["stage1_doc_ids"]
+            dropped = info["dropped_entities"]
+            fallback = info["fallback"]
+            routed = info["routed"]
+            two_stage = routed == "grounded"
+        elif two_stage_fn is not None:
             info = two_stage_fn(item["question"], db=args.db, mode=args.mode, max_per_doc=args.max_per_doc, keyword_filter=args.keyword_filter)
             sub_qs = info["sub_questions"]
             stage1_docs = info["stage1_doc_ids"]
             dropped = info["dropped_entities"]
             fallback = info["fallback"]
             two_stage = True
-        elif args.auto_decompose and not args.two_stage:
+        elif args.auto_decompose and not args.two_stage and not args.selective:
             sub_qs = decompose(item["question"])
+            routed = "auto"
         elif item["id"] in decomps:
             sub_qs = decomps[item["id"]]
+            routed = "oracle"
         else:
             sub_qs = None
         if sub_qs is not None:
@@ -112,6 +129,7 @@ def main():
             "sub_questions": sub_qs,
             "two_stage": two_stage,
             "two_stage_fallback": fallback,
+            "routed": routed,
             "stage1_doc_ids": stage1_docs,
             "dropped_entities": dropped,
         })

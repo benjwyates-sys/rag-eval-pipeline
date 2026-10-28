@@ -17,6 +17,7 @@ fundamentals by hand — no frameworks hiding the machinery.
 - `run.py` — runs the eval set and prints scores
 - `decompose.py` — automatic query decomposition (LLM guess-first prompt, rule-based fallback; `--auto-decompose`)
 - `two_stage.py` — two-stage grounded decomposition (retrieve first, LLM proposes entities from candidates; `--two-stage`, optional `--keyword-filter`)
+- `selective.py` — selective routing (entity-seeking questions grounded, rest single-pass; `--selective`)
 - `judge.py` — LLM evidence-support judge (needs OPENAI_API_KEY)
 
 ## Run it
@@ -45,7 +46,7 @@ guess-first prompt, round-robin merge) lifts that to hit@3/hit@5 1.000,
 MRR 0.938 with zero misses. Two-stage grounded decomposition (session 5,
 retrieve first, then guess from candidates) scores lower: MRR 0.880,
 keyword-filter variant 0.887 — grounding hurts general questions (see
-scorecard). Oracle query decomposition lifts that to hit@3/hit@5
+scorecard). Selective routing (session 6, grounded only for entity-seeking questions) ties session 4 at MRR 0.935 with zero misses, and the faithfulness judge rates champion evidence SUPPORTED 23, PARTIAL 4, UNSUPPORTED 0. Oracle query decomposition lifts that to hit@3/hit@5
 1.000, MRR 0.963. Full ablation table and findings: `evals/SCORECARD.md`.
 
 ```
@@ -53,4 +54,6 @@ uv run python run.py
 uv run python run.py --decompose
 uv run python run.py --auto-decompose  # needs OPENAI_API_KEY
 uv run python run.py --two-stage  # needs OPENAI_API_KEY
+uv run python run.py --selective  # needs OPENAI_API_KEY
+uv run python run.py --judge  # needs OPENAI_API_KEY
 ```

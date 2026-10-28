@@ -1,4 +1,4 @@
-# Scorecard — sessions 3–5
+# Scorecard — sessions 3–6
 
 27 answerable questions, k=5, 1024-char chunks / 200 overlap unless noted.
 Per-question results live in `evals/results_*.json`.
@@ -22,6 +22,7 @@ Per-question results live in `evals/results_*.json`.
 | Vector, div1, LLM auto-decomposition + round-robin (guess-first) | 0.889 | 1.000 | 1.000 | 0.938 | none |
 | Vector, div1, two-stage grounded decomposition + round-robin | 0.815 | 0.926 | 0.963 | 0.880 | 025 |
 | Vector, div1, two-stage grounded decomposition + keyword filter + round-robin | 0.815 | 0.926 | 1.000 | 0.887 | none |
+| Vector, div1, selective routing (grounded for entity questions, auto otherwise) + round-robin | 0.889 | 0.963 | 1.000 | 0.935 | none |
 
 ## Findings
 
@@ -134,6 +135,26 @@ Two-stage scores BELOW both the single-step champion and session-4 single-pass d
 
 Session 6 candidate: SELECTIVE grounding — route which/who questions (where entities are the answer) to grounded entity-proposal, and keep general and definitional questions on single-pass splits or single-step retrieval. 025 is the poster child for why the routing matters.
 
+## Session 6: selective routing + faithfulness judge
+
+`selective.py` routes by question form: questions asking which/who/what-company (entity-seeking) go down the grounded path (`two_stage.py`); everything else uses single-pass decomposition (`decompose.py`). The router is rule-based and deterministic — no LLM call, so routing itself is reproducible. `run.py --selective` runs it; per-question output records `routed` (grounded/auto/oracle/none).
+
+### Results (statistical tie with session 4)
+
+Selective routing: hit@1 0.889, hit@3 0.963, hit@5 1.000, MRR 0.935, zero misses — versus session-4 auto at 0.938. Against the pre-stated criteria: 025 back at rank 1 (routed auto) ✓; 011 at rank 2 (= auto) ✓; 028 at rank 4 (vs auto's 3) ✗; MRR ≥ 0.938 ✗, short by exactly the 028 slip (1/3 → 1/4 = 0.003). Routing recovered everything two-stage broke (025/026 back to rank 1; 0.880 → 0.935) but grounded beat auto nowhere. Verdict: routing neutralizes grounding's downside without adding upside on this set — complexity for no measured gain.
+
+### Routing audit
+
+The router's decisions match the design exactly: grounded = 003, 006, 008, 011, 028, 029; auto = the other 21. Both risk cases held: 003 grounded at rank 2 (= auto), 029 grounded at rank 1 (= auto). One quirk: for 011 the grounded model returned the SAME rephrased sub-question four times; round-robin merge dedups identical rankings, so it was harmless (rank 2 unchanged).
+
+### Faithfulness judge (closes the session-2 exit criteria)
+
+`run.py --judge` on champion single-step evidence, first run since the judge was built (it needed an API key): SUPPORTED 23, PARTIAL 4, UNSUPPORTED 0. The four partials are all two-part questions (003, 007, 009, 010) where retrieved chunks cover part of the gold answer — a sensible pattern. Anomaly: 028 judged SUPPORTED despite a retrieval miss (neither gold doc retrieved). Either some non-gold chunk genuinely supports the answer or the judge was lenient — and it can't be audited from the output, because `run.py` computes the rationale and discards it (`verdict, _ = ...`). Saving rationales is a follow-up fix for judge auditability.
+
+### Next
+
+This closes the rag-eval arc: pipeline, eval harness, ablations, auto-decomposition, grounded decomposition, selective routing, and faithfulness scores. The recommended next project is a perception-eval study on public data (the Zoox V&V direction from Oct 26), not a seventh session on this harness: at 27 questions, further deltas are within temperature-0 noise.
+
 ## Caveats
 
 - 27 questions, one corpus: the champion is champion on this set, not a
@@ -156,4 +177,6 @@ uv run python run.py --mode vector --max-per-doc 1 --decompose  # oracle ceiling
 uv run python run.py --mode vector --max-per-doc 1 --auto-decompose  # LLM decomposer, needs OPENAI_API_KEY
 uv run python run.py --mode vector --max-per-doc 1 --two-stage  # grounded decomposer, needs OPENAI_API_KEY
 uv run python run.py --mode vector --max-per-doc 1 --two-stage --keyword-filter
+uv run python run.py --mode vector --max-per-doc 1 --selective  # selective routing, needs OPENAI_API_KEY
+uv run python run.py --judge  # faithfulness judge, needs OPENAI_API_KEY
 ```
